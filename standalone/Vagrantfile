@@ -24,14 +24,34 @@ export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 apt-get update
 apt-get install wget -y
-apt-get install collectd -y
 apt-get install python3-pip -y
 
 sudo chown vagrant:vagrant -R /opt
 
 cd /opt
 wget https://mirror.efect.ro/apache/flink/flink-1.11.2/flink-1.11.2-bin-scala_2.12.tgz
-tar -xzvf flink-1.11.2-bin-scala_2.12.tgz && cd /opt/flink-1.11.2-bin-scala_2.12.tgz
+tar -xzvf flink-1.11.2-bin-scala_2.12.tgz && cd /opt/flink-1.11.2
+
+# Register flink cluster as service
+sudo mkdir /usr/lib/systemd/system
+sudo cp /vagrant/flinkcluster.service /usr/lib/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable flinkcluster.service
+sudo service flinkcluster.service start
+
+
+# Installing Prometheus node_exporter
+cd /opt
+wget https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+
+# Extract node_exporter
+tar -xvzf node_exporter-0.18.1.linux-amd64.tar.gz
+
+sudo cp /vagrant/node_exporter.service /usr/lib/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable node_exporter.service
+sudo service node_exporter start
+
 SCRIPT
 
 Vagrant.configure(2) do |config|
@@ -41,6 +61,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", ip: "10.211.55.122"
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 8081, host: 8081
+  config.vm.network "forwarded_port", guest: 8082, host: 8082
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "4096"

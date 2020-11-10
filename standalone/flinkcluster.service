@@ -1,0 +1,18 @@
+[Unit]
+Description=flinkcluster
+
+[Service]
+Type=simple
+PIDFile=/run/flinkcluster.pid
+# Step 1 and Step 2 details are here..
+# ------------------------------------
+ExecStart=/opt/flink-1.11.2/bin/start-cluster.sh
+User=vagrant
+Group=vagrant
+WorkingDirectory=/opt/flink-1.11.2
+Restart=always
+RestartSec=10
+#KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
