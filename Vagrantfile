@@ -94,6 +94,9 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 EOF
+
+
+sudo chown vagrant:vagrant -R /opt
 SCRIPT
 
 
@@ -202,6 +205,7 @@ Vagrant.configure("2") do |config|
     slave1.vm.hostname = "flinknode1"
     slave1.vm.network :forwarded_port, guest: 22, host: 2186
     slave1.vm.network :forwarded_port, guest: 8080, host: 8080
+    slave1.vm.network :forwarded_port, guest: 8081, host: 8081
     slave1.vm.network :forwarded_port, guest: 7070, host: 7071
     slave1.vm.network :forwarded_port, guest: 4040, host: 4041
     slave1.vm.network :forwarded_port, guest: 18080, host: 18081
