@@ -46,10 +46,7 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'node-prometheus'
     static_configs:
-      - targets: ['10.211.55.101:9100']
-  - job_name: 'flink'
-   static_configs:
-   - targets: ['10.211.55.101:9249', 'taskmanager1:9249', 'taskmanager2:9249']
+      - targets: ['10.211.55.101:9100', '10.211.55.101:9249']
 EOF
 cd /opt/prometheus-2.13.0-rc.0.linux-amd64
 # Start prometheus
