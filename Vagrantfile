@@ -166,12 +166,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :master do |master|
     master.vm.provider :virtualbox do |v|
-      v.name = "prometheus_flink"
+      v.name = "prometheusflink"
       v.customize ["modifyvm", :id, "--memory", "4096"]
     end
     master.disksize.size = '20GB'
     master.vm.network :private_network, ip: "10.211.55.100"
-    master.vm.hostname = "prometheus_flink"
+    master.vm.hostname = "prometheusflink"
     master.vm.network :forwarded_port, host:9090, guest: 9090
     master.vm.network :forwarded_port, host:3000, guest: 3000
     master.vm.network :forwarded_port, host:8787, guest:8787
