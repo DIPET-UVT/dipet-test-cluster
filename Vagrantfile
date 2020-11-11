@@ -182,14 +182,7 @@ Vagrant.configure("2") do |config|
     master.vm.network :private_network, ip: "10.211.55.100"
     master.vm.hostname = "prometheusflink"
     master.vm.network :forwarded_port, host:9090, guest: 9090
-    master.vm.network :forwarded_port, host:3000, guest: 3000
-    master.vm.network :forwarded_port, host:8787, guest:8787
-    master.vm.network :forwarded_port, host:8786, guest:8786
     master.vm.network :forwarded_port, guest: 22, host: 2185
-    master.vm.network :forwarded_port, guest: 8888, host: 8897
-    master.vm.network :forwarded_port, guest: 7070, host: 7070
-    master.vm.network :forwarded_port, guest: 4040, host: 4040
-    master.vm.network :forwarded_port, guest: 18080, host: 18080
     master.vm.provision :shell, :inline => $master_script
     master.vm.provision :hostmanager
   end
@@ -205,9 +198,6 @@ Vagrant.configure("2") do |config|
     slave1.vm.network :forwarded_port, guest: 22, host: 2186
     slave1.vm.network :forwarded_port, guest: 8080, host: 8080
     slave1.vm.network :forwarded_port, guest: 8081, host: 8081
-    slave1.vm.network :forwarded_port, guest: 7070, host: 7071
-    slave1.vm.network :forwarded_port, guest: 4040, host: 4041
-    slave1.vm.network :forwarded_port, guest: 18080, host: 18081
     slave1.vm.provision :shell, :inline => $hosts_script
     slave1.vm.provision :hostmanager
   end
