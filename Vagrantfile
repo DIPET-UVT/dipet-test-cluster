@@ -57,7 +57,8 @@ sudo mkdir /usr/lib/systemd/system
 sudo cp /vagrant/prometheus.service /usr/lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable prometheus.service
-sudo service prometheus.service start
+sudo systemctl start prometheus.service
+# sudo service prometheus.service start
 
 cd /opt
 
@@ -109,19 +110,24 @@ cd /opt
 wget https://mirror.efect.ro/apache/flink/flink-1.11.2/flink-1.11.2-bin-scala_2.12.tgz
 tar -xzvf flink-1.11.2-bin-scala_2.12.tgz && cd /opt/flink-1.11.2
 
+# Configuration file
+mv /opt/flink-1.11.2/conf/flink-conf.yaml /opt/flink-1.11.2/conf/flink-conf.yaml.b
+cp /vagrant/flink-conf.yaml /opt/flink-1.11.2/conf/
+
 # Register flink cluster as service
 sudo mkdir /usr/lib/systemd/system
 sudo cp /vagrant/flinkcluster.service /usr/lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable flinkcluster.service
+sudo systemctl start flinkcluster.service
 #sudo service flinkcluster.service start
 
 #Configuration file
 mv /opt/flink-1.11.2/conf/flink-conf.yaml /opt/flink-1.11.2/conf/flink-conf.yaml.b
-cp /vagrant/flink-co nf.yaml /opt/flink-1.11.2/conf/
+cp /vagrant/flink-conf.yaml /opt/flink-1.11.2/conf/
 
-cd /opt/flink-1.11.2/bin
-sudo ./start-cluster.sh
+# cd /opt/flink-1.11.2/bin
+# sudo ./start-cluster.sh
 
 # Installing Prometheus node_exporter
 cd /opt
@@ -192,7 +198,7 @@ Vagrant.configure("2") do |config|
     slave1.vm.network :private_network, ip: "10.211.55.101"
     slave1.vm.hostname = "flinknode1"
     slave1.vm.network :forwarded_port, guest: 22, host: 2186
-    slave1.vm.network :forwarded_port, guest: 8080, host: 8082
+    slave1.vm.network :forwarded_port, guest: 8080, host: 8080
     slave1.vm.network :forwarded_port, guest: 7070, host: 7071
     slave1.vm.network :forwarded_port, guest: 4040, host: 4041
     slave1.vm.network :forwarded_port, guest: 18080, host: 18081
